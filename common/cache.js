@@ -1,16 +1,25 @@
 const redis = require("./redis")
 const cache = redis.createClient();
+const prefix = require("./config").getConfig().redis.prefix
 
 module.exports = {
 	put: (key, object, ttl) => {
-        eventsConsumer.on("message", function (channel, message) {
-        	callback(JSON.parse(message))
-        })
-		return eventsConsumer.subscribeAsync("events")
+        return Promise.all(
+        	[
+        		cache.setAsync(prefix+key, JSON.stringify(object)),
+				cache.expireAsync(prefix+key, ttl)
+			]
+		)
 	},
 
-	publish: message => {
-		return eventsProducer.publishAsync("events", JSON.stringify(message))
+	get: key => {
+		return cache.getAsync(prefix+key).then(str => JSON.parse(str))
+	},
+
+	keys: kpref => {
+		return cache.keysAsync(prefix+kpref).then(keys => {
+			return keys.map(k=>k.substring(prefix.length))
+		})
 	}
 }
 

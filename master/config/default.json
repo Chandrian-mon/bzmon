@@ -1,3 +1,5 @@
 {
-
+  "redis" : {
+    "prefix" : "BZMON___"
+  }
 }

@@ -2,7 +2,7 @@
 
 module.exports = {
     debug: (msg) => {
-        console.log("[DEBUG] "+msg);
+        // console.log("[DEBUG] "+msg);
     },
 
     info:(msg) => {
