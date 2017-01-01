@@ -16,6 +16,10 @@ module.exports = {
 		return cache.getAsync(prefix+key).then(str => JSON.parse(str))
 	},
 
+	delete: key => {
+		return cache.delAsync(prefix+key)
+	},
+
 	keys: kpref => {
 		return cache.keysAsync(prefix+kpref).then(keys => {
 			return keys.map(k=>k.substring(prefix.length))

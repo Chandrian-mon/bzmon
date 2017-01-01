@@ -5,31 +5,48 @@ const eventBus = require("../../common/eventBus")
 const cache = require("../../common/cache")
 const config = require("../../common/config").getConfig()
 const logger = require('../../common/logger')
+const app = require('../expressApp')
+const Promise = require('bluebird')
 
 class AgentDiscoveryManager{
     constructor(){
         this.eventType = "tick"
         this.agents = {}
+
+        app.get('/agents', (req, res) => {
+            res.setHeader('Content-Type', 'application/json')
+            res.json({agents: this.agents})
+        })
     }
 
     eventOccurred(event){
-        cache.keys("agents*").then(agentKeys => {
-            agentKeys.forEach(agentKey => {
-                cache.get(agentKey).then(agentProps => {
-                    if (!this.agents[agentKey]){
-                        this.agents[agentKey] = agentProps;
-                        logger.info("Agent joined: "+agentKey+" properties: "+JSON.stringify(agentProps))
-                    }
-                })
+        Promise.map(cache.keys("agents*"), key => {
+            return cache.get(key).then(agent => {
+                agent.Id = key;
+                return agent;
+            })
+        }).then(agents => {
+            return Promise.map(agents, agent => {
+                if (!this.agents[agent.Id]){
+                    logger.info("Agent joined: "+JSON.stringify(agent))
+                }
+                this.agents[agent.Id] = agent;
+                return agent
+            })
+        }).then(agents => {
+            const cacheAgents = {};
+            agents.forEach(agent => {
+                cacheAgents[agent.Id] = agent
             })
 
             Object.keys(this.agents).forEach(agentKey => {
-                if (!agentKeys.find(k => k=agentKey)){
-                    logger.info("Removing agent: "+agentKey+" properties: "+JSON.stringify(this.agents[agentKey]))
+                if (!cacheAgents[agentKey]) {
+                    logger.info("Removing agent: "+JSON.stringify(this.agents[agentKey]))
                     delete this.agents[agentKey]
                 }
             })
         })
+
     }
 }
 
