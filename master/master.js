@@ -7,6 +7,8 @@ logger.info("BZ-Master is starting up")
 const eventBus = require("./../common/eventBus");
 const clock = require("./clock");
 eventBus.registerHandler(require("./handlers/agentDiscoveryManager"));
+eventBus.registerHandler(require("./handlers/scheduleHandler"));
+
 app.listen(3000, function () {
     console.log('Status route is ready')
 })
