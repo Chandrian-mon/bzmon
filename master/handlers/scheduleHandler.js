@@ -16,16 +16,16 @@ class ScheduleManager{
     }
 
     eventOccurred(event){
-        if (event.counter % 40 != 0){
-            return
-        }
-        eventBus.putEvent({
-            type: "execScript",
-            script: 'echo "44 | OK DUDE"\n' +
-                    'echo line2' ,
-            args: [],
-            name: "dodo-script"
-        })
+        // if (event.counter % 40 != 0){
+        //     return
+        // }
+        // eventBus.putEvent({
+        //     type: "execScript",
+        //     script: 'echo "44 | OK DUDE"\n' +
+        //             'echo line2' ,
+        //     args: [],
+        //     name: "dodo-script"
+        // })
     }
 }
 

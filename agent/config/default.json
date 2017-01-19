@@ -6,5 +6,10 @@
   "client" : {
     "prop1" : "bla",
     "prop3" : "na"
+  },
+
+  "healthScript" : {
+    "location" : "/Users/yotamm/healthtest.sh",
+    "execInterval" : 30
   }
 }

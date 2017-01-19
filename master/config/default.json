@@ -1,5 +1,6 @@
 {
   "redis" : {
     "prefix" : "BZMON___"
-  }
+  },
+  "tickTTL" : 2
 }

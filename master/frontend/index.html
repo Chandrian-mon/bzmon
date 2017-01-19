@@ -24,7 +24,7 @@
                     const allProps = {"Id":{}}
 
                     Object.keys(data.agents).forEach(agentId => {
-                        const agent = data.agents[agentId];
+                        const agent = data.agents[agentId].properties;
                         Object.keys(agent).forEach(prop => {
                             allProps[prop] = {}
                         })
@@ -35,9 +35,12 @@
                     })
 
                     Object.keys(data.agents).forEach(agentId => {
-                        const agent = data.agents[agentId];
+                        const agent = data.agents[agentId].properties;
                         const row = []
-                        tableModel.rows.push({rowData: row})
+                        tableModel.rows.push({
+                            rowData: row,
+                            healthStatus: JSON.stringify(data.agents[agentId].healthStatus.result)
+                        })
                         Object.keys(allProps).forEach(prop => {
                             let val = "";
                             if (agent[prop]){
@@ -91,6 +94,7 @@
             {{#rowData}}
             <td>{{text}}</td>
             {{/rowData}}
+            <td>{{healthStatus}}</td>
         </tr>
         {{/rows}}
         </tbody>
