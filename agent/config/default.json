@@ -9,7 +9,7 @@
   },
 
   "healthScript" : {
-    "location" : "/Users/yotamm/healthtest.sh",
+    "location" : "",
     "execInterval" : 30
   }
 }
