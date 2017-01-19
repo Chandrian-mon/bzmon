@@ -1,0 +1,35 @@
+.table tbody tr > td.success {
+    background-color: lawngreen !important;
+    border: solid 1px !important;
+}
+
+.table tbody tr > td.error {
+    background-color: orangered !important;
+    color: white; !important;
+    border: solid 1px black !important;
+}
+
+.table tbody tr > td.warning {
+    background-color: yellow !important;
+    border: solid 1px !important;
+}
+
+.table tbody tr > td.info {
+    background-color: #d9edf7 !important;
+}
+
+.table-hover tbody tr:hover > td.success {
+    background-color: #d0e9c6 !important;
+}
+
+.table-hover tbody tr:hover > td.error {
+    background-color: #ebcccc !important;
+}
+
+.table-hover tbody tr:hover > td.warning {
+    background-color: #faf2cc !important;
+}
+
+.table-hover tbody tr:hover > td.info {
+    background-color: #c4e3f3 !important;
+}

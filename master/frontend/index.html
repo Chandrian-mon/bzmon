@@ -5,56 +5,125 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="index.css" rel="stylesheet"/>
+
     <script src="node_modules/jquery/dist/jquery.min.js"></script>
     <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="node_modules/mustache/mustache.min.js"></script>
 
     <script language="javascript">
 
-
-        function createAgentsTable(){
+        function createAgentsTable() {
             $.get(
-                "agents",
-                function(data) {
+                    "agents",
+                    function (data) {
 
-                    const tableModel = {
-                        titleItems: [],
-                        rows: []
-                    };
-                    const allProps = {"Id":{}}
+                        const tableModel = {
+                            titleItems: [],
+                            rows: []
+                        };
+                        const allProps = {"Id": {}}
+                        const allChecks = {}
 
-                    Object.keys(data.agents).forEach(agentId => {
-                        const agent = data.agents[agentId].properties;
-                        Object.keys(agent).forEach(prop => {
-                            allProps[prop] = {}
+                        Object.keys(data.agents).forEach(agentId => {
+                            const agent = data.agents[agentId].properties;
+                            Object.keys(agent).forEach(prop => {
+                                allProps[prop] = {}
+                            })
+                            const agentChecks = data.agents[agentId].healthStatus.result;
+                            if (agentChecks) {
+                                Object.keys(agentChecks).forEach(check => {
+                                    allChecks[check] = agentChecks[check];
+                                })
+                            }
                         })
-                    })
 
-                    Object.keys(allProps).forEach(prop => {
-                        tableModel.titleItems.push({text: prop})
-                    })
-
-                    Object.keys(data.agents).forEach(agentId => {
-                        const agent = data.agents[agentId].properties;
-                        const row = []
-                        tableModel.rows.push({
-                            rowData: row,
-                            healthStatus: JSON.stringify(data.agents[agentId].healthStatus.result)
-                        })
                         Object.keys(allProps).forEach(prop => {
-                            let val = "";
-                            if (agent[prop]){
-                                val = agent[prop]
-                            }
-                            if (prop == 'Id'){
-                                val = agentId
-                            }
-                            row.push({text: val});
+                            tableModel.titleItems.push({
+                                text: prop,
+                                cssClass: "prop"
+                            })
                         })
-                    })
 
-                    renderit(tableModel)
-                }
+                        Object.keys(allChecks).forEach(check => {
+                            tableModel.titleItems.push({
+                                text: allChecks[check].description,
+                                cssClass: "check"
+                            })
+                        })
+
+                        Object.keys(data.agents).forEach(agentId => {
+                            const agent = data.agents[agentId].properties;
+                            const agentHealthStat = data.agents[agentId].healthStatus.result;
+                            const row = []
+                            tableModel.rows.push({
+                                rowData: row,
+                                healthStatus: JSON.stringify(data.agents[agentId].healthStatus.result)
+                            })
+                            Object.keys(allProps).forEach(prop => {
+                                let val = "";
+                                if (agent[prop]) {
+                                    val = agent[prop]
+                                }
+                                if (prop == 'Id') {
+                                    val = agentId
+                                }
+                                row.push({text: val});
+                            })
+
+                            Object.keys(allChecks).forEach(check => {
+                                let val = "";
+                                let status = "success";
+                                if (agentHealthStat) {
+                                    if (agentHealthStat[check]) {
+                                        const checkResult = agentHealthStat[check];
+                                        if (checkResult.value) {
+                                            val = checkResult.value;
+                                            if (checkResult['low-warning']){
+                                                if (val <= checkResult['low-warning']){
+                                                    status = "warning";
+                                                }
+                                            }
+                                            if (checkResult['low-critical']){
+                                                if (val <= checkResult['low-warning']){
+                                                    status = "error";
+                                                }
+                                            }
+                                            if (checkResult['high-warning']){
+                                                if (val >= checkResult['high-warning']){
+                                                    status = "warning";
+                                                }
+                                            }
+                                            if (checkResult['high-critical']){
+                                                if (val >= checkResult['high-critical']){
+                                                    status = "error";
+                                                }
+                                            }
+                                        } else if (checkResult.status) {
+                                            val = checkResult.status;
+                                            switch (val.toLowerCase()) {
+                                                case "ok" :
+                                                    status="success";
+                                                    break;
+                                                case "warning":
+                                                    status = "warning";
+                                                    break
+                                                case "critical":
+                                                    status = "error";
+                                                    break;
+                                            }
+                                        }
+                                    }
+                                }
+                                row.push({
+                                    text: val,
+                                    cssClass: status
+                                });
+                            })
+                        })
+
+                        renderit(tableModel)
+                    }
             );
         }
 
@@ -67,14 +136,14 @@
             var template = $('#template').html();
             Mustache.parse(template);   // optional, speeds up future uses
             var rendered = Mustache.render(template, tableModel);
-            document.getElementById("c1").innerHTML=(rendered);
+            document.getElementById("c1").innerHTML = (rendered);
         }
 
     </script>
 
 </head>
 
-<body onload="refresh()" >
+<body onload="refresh()">
 
 
 <script id="template" type="x-tmpl-mustache">
@@ -92,13 +161,13 @@
         {{#rows}}
         <tr>
             {{#rowData}}
-            <td>{{text}}</td>
+            <td class="{{cssClass}}">{{text}}</td>
             {{/rowData}}
-            <td>{{healthStatus}}</td>
         </tr>
         {{/rows}}
         </tbody>
     </table>
+
 </script>
 
 <div class="container" id="c1">
