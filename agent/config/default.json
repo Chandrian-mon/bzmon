@@ -12,7 +12,7 @@
   },
 
   "healthScript" : {
-    "location" : "/examples/script.sh",
+    "location" : "../examples/script.sh",
     "execInterval" : 10
   }
 }

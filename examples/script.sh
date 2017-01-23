@@ -3,8 +3,9 @@
 RANDOM_SEED=1
 
 function random_status_string() {
-  RANDOM=$((RANDOM_SEED++))
-  r=$((RANDOM%3))
+  ((RANDOM_SEED++))
+  rand=$RANDOM
+  r=$(((rand+RANDOM_SEED)%3))
   if [ $r -eq 0 ]; then
     RAND_STATUS="OK"
   elif [ $r -eq 1 ]; then
@@ -16,9 +17,10 @@ function random_status_string() {
 }
 
 function random_number() {
-  RANDOM=$((RANDOM_SEED++))
+  ((RANDOM_SEED++))
   limit=$1
-  echo $((RANDOM%limit))
+  rand=$RANDOM
+  echo $(((rand+RANDOM_SEED)%limit))
 }
 
 cat << JSON 
