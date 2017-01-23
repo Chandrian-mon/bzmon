@@ -1,6 +1,8 @@
 const redis = require("./redis")
-const eventsProducer = redis.createClient();
-const eventsConsumer = redis.createClient();
+const redisConfig = require("./config").getConfig().redis;
+const eventsProducer = redis.createClient(redis.port, redis.host);
+const eventsConsumer = redis.createClient(redis.port, redis.host);
+
 
 module.exports = {
 	subscribe: callback => {

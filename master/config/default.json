@@ -1,6 +1,8 @@
 {
   "redis" : {
-    "prefix" : "BZMON___"
+    "prefix" : "BZMON___",
+    "host" : "localhost",
+    "port" : 6379
   },
   "tickTTL" : 2
 }
