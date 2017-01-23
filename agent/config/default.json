@@ -4,12 +4,13 @@
   },
 
   "client" : {
-    "prop1" : "bla",
-    "prop3" : "nab"
+    "role" : "dev",
+    "environment" : "local",
+    "daatcenter": "il"
   },
 
   "healthScript" : {
-    "location" : "",
-    "execInterval" : 30
+    "location" : "/examples/script.sh",
+    "execInterval" : 10
   }
 }
