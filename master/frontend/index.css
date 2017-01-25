@@ -1,17 +1,36 @@
-.table tbody tr > td.success {
+
+.table thead tr > th.grey {
+    background-color: rgba(230, 230, 230, 0.82) !important;
+    color: black; !important;
+    border: solid 1px gray !important;
+    font-family: Arial;
+    font-style: normal;
+    font-size: 14px;
+}
+
+.table tbody tr td div.success {
+    padding: 5px;
     background-color: lawngreen !important;
-    border: solid 1px !important;
+    border: solid 1px lightgray !important;
+    border-radius: 5px;
+    text-align: center;
 }
 
-.table tbody tr > td.error {
+.table tbody tr td div.danger {
+    padding: 5px;
     background-color: orangered !important;
-    color: white; !important;
-    border: solid 1px black !important;
+    color: yellow;
+    border: solid 1px lightgray !important;
+    border-radius: 5px;
+    text-align: center;
 }
 
-.table tbody tr > td.warning {
+.table tbody tr td div.warning {
+    padding: 5px;
     background-color: yellow !important;
-    border: solid 1px !important;
+    border: solid 1px lightgray !important;
+    border-radius: 5px;
+    text-align: center;
 }
 
 .table tbody tr > td.info {
@@ -22,7 +41,7 @@
     background-color: #d0e9c6 !important;
 }
 
-.table-hover tbody tr:hover > td.error {
+.table-hover tbody tr:hover > td.danger {
     background-color: #ebcccc !important;
 }
 
