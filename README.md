@@ -4,7 +4,6 @@ Quick and simple monitoring system written in NodeJS.
 The agents and master both maintain a persistant connection through a Redis server.
 The agents run a single local script on their node and report the result in json format to the Redis server.
 The master instantly publishes the results to the web UI and Slack.
-check
 
 ## Todo
 
