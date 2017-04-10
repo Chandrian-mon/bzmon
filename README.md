@@ -12,3 +12,17 @@ The master instantly publishes the results to the web UI and Slack.
 3. Add Slack notifications according to one of the agent tags (or simply look for the "environment" attribute. Each one should have it's own section in the configuration with the Slack webhook url and other data. It's a simple POST request. The request should have an "attachement" (red/green/orange bar on the left). [Here's how.](https://api.slack.com/docs/messages/builder?msg=%7B%22attachments%22%3A%5B%7B%22color%22%3A%22%2336a64f%22%2C%22text%22%3A%22And%20here%27s%20an%20attachment!%22%2C%22ts%22%3A1483878392%7D%5D%7D)
 4. Notifications should be sent whenever a status changes to and from "OK". You may want to store a "current state" for that.
 5. You can also consider the option to supress notifications according to conditions (user clicked "mute"/do not notify on staging at night/etc.)
+
+## How to run
+
+1. Perform `npm install` from root folder
+2. Perform `npm install` from master/frontend folder (to build frontend)
+3. Make sure redis is running: either use your own redis or run `start-redis.sh` script (docker is required) 
+4. Run the master
+```bash
+node master/master.js
+```
+5. Run an agent:
+```bash
+node agent/agent.js
+```

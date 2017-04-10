@@ -9,10 +9,5 @@
     "role" : "dev",
     "environment" : "local",
     "daatcenter": "il"
-  },
-
-  "healthScript" : {
-    "location" : "../examples/script.sh",
-    "execInterval" : 10
   }
 }
