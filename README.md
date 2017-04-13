@@ -26,3 +26,5 @@ node master/master.js
 ```bash
 node agent/agent.js
 ```
+
+Surf to http://localhost:3000/ to see the dashboard
